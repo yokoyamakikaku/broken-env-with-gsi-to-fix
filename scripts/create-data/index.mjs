@@ -189,7 +189,7 @@ async function main () {
     type: "number",
     message: "作成するグループの数を入力してください",
     name: "groupCount",
-    default: 10,
+    default: 20,
   })
 
   /** @type {{ userCount: string }} */
@@ -197,7 +197,7 @@ async function main () {
     type: "number",
     message: "作成するユーザの数を入力してください",
     name: "userCount",
-    default: 100,
+    default: 200,
   })
 
   /** @type {{ bookCategoryCount: string }} */
@@ -205,7 +205,7 @@ async function main () {
     type: "number",
     message: "作成する本のカテゴリの数を入力してください",
     name: "bookCategoryCount",
-    default: 200,
+    default: 400,
   })
 
   /** @type {{ bookCount: string }} */
@@ -213,7 +213,7 @@ async function main () {
     type: "number",
     message: "作成する本の数を入力してください",
     name: "bookCount",
-    default: 1000,
+    default: 2000,
   })
 
   /** @type {{ bookCount: string }} */
@@ -221,7 +221,7 @@ async function main () {
     type: "number",
     message: "コメントの数を入力してください",
     name: "commentCount",
-    default: 4000,
+    default: 10000,
   })
 
   /** @type {string[]} */
