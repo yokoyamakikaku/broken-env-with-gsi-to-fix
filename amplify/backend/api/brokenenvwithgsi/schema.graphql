@@ -42,5 +42,5 @@ type Comment @model @auth (rules: [
   contents: String!
   groupId: String! @index(name: "byGroupId", queryField: "listCommentsByGroupId")
   userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId")
-  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt"])
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt")
 }
