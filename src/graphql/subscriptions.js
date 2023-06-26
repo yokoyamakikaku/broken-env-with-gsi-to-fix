@@ -203,9 +203,9 @@ export const onCreateComment = /* GraphQL */ `
   ) {
     onCreateComment(filter: $filter, owner: $owner) {
       id
+      contents
       groupId
       userId
-      contents
       createdAt
       updatedAt
       owner
@@ -220,9 +220,9 @@ export const onUpdateComment = /* GraphQL */ `
   ) {
     onUpdateComment(filter: $filter, owner: $owner) {
       id
+      contents
       groupId
       userId
-      contents
       createdAt
       updatedAt
       owner
@@ -237,9 +237,9 @@ export const onDeleteComment = /* GraphQL */ `
   ) {
     onDeleteComment(filter: $filter, owner: $owner) {
       id
+      contents
       groupId
       userId
-      contents
       createdAt
       updatedAt
       owner
