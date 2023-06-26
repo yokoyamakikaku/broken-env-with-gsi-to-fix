@@ -4,7 +4,7 @@ type User @model @auth(rules: [
   id: ID!
   name: String!
   bornedDate: AWSDate!
-  groupId: String! @index(name: "byGroupId", queryField: "listUsersByGroupId")
+  groupId: String! @index(name: "byGroupId", queryField: "listUsersByGroupId", sortKeyFields: ["name"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listUsersByCreatedAt")
 }
 
@@ -22,7 +22,7 @@ type Book @model @auth (rules: [
   id: ID!
   name: String!
   categoryId: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listBooksByGroupId")
+  groupId: String! @index(name: "byGroupId", queryField: "listBooksByGroupId", sortKeyFields: ["name"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBooksByCreatedAt")
 }
 
@@ -31,7 +31,7 @@ type BookCategory @model @auth (rules: [
 ]) {
   id: ID!
   name: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listBookCategoriesByGroupId")
+  groupId: String! @index(name: "byGroupId", queryField: "listBookCategoriesByGroupId", sortKeyFields: ["name"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBookCategoriesByCreatedAt")
 }
 
@@ -40,7 +40,7 @@ type Comment @model @auth (rules: [
 ]) {
   id: ID!
   contents: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listCommentsByGroupId")
-  userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId")
+  groupId: String! @index(name: "byGroupId", queryField: "listCommentsByGroupId", sortKeyFields: ["userId"])
+  userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["groupId"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt")
 }

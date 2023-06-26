@@ -7,7 +7,6 @@ import Chance from 'chance'
 
 import { fromIni } from  '@aws-sdk/credential-providers'
 import { AppSyncClient, GetDataSourceCommand, ListGraphqlApisCommand } from '@aws-sdk/client-appsync'
-import { AdminCreateUserCommand, CognitoIdentityProviderClient, ListUserPoolsCommand, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb'
 
