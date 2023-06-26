@@ -30,6 +30,7 @@ v18.16.0
 ## リポジトリの接続
 
 GitHub などのリポジトリホスティングサービスにリポジトリをアップロードして連携する。
+リポジトリを接続して設定し、対象のブランチに変更があった時にデプロイするようにする。
 
 https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/setting-up-GitHub-access.html
 
@@ -42,14 +43,10 @@ https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/setting-up-GitHub-acc
 - スキーマの更新
 - 更新後のデプロイ
 
-## 初期スキーマの定義
+## 初期スキーマのデプロイ
 
-`/schemas/schema.0.graphql` を `/amplify/backend/api/brokenenvwithgsi/schema.graphql` に配置する
+`/schemas/schema.0.graphql` を `/amplify/backend/api/brokenenvwithgsi/schema.graphql` に配置しデプロイする。
 
-
-## 初期のデプロイ
-
-デプロイする
 
 ```
 % amplify push -y
@@ -64,13 +61,13 @@ https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/setting-up-GitHub-acc
 
 ## スキーマの更新
 
-
 `/schemas/schema.1.graphql` を `/amplify/backend/api/brokenenvwithgsi/schema.graphql` に配置する
 
 ## 更新後のデプロイ
 
-ここでエラーが発生する
+CI/CDを使ってデプロイするようにする。
+そのため変更をプッシュする。
 
 ```
-% amplify push -y
+% git push -u origin main
 ```
