@@ -44,3 +44,25 @@ type Comment @model @auth (rules: [
   userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId")
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt")
 }
+
+type Message @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String! @index(name: "byGroupId", queryField: "listMessagesByGroupId")
+  from: String! @index(name: "byFrom", queryField: "listMessagesByFrom")
+  to: String! @index(name: "byTo", queryField: "listMessagesByTo")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listMessagesByCreatedAt")
+}
+
+type Schedule @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  comment: String!
+  startedAt: AWSDateTime!
+  finishedAt: AWSDateTime!
+  groupId: String! @index(name: "byGroupId", queryField: "listMessagesByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listMessagesByCreatedAt")
+}
