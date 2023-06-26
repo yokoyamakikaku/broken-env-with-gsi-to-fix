@@ -1,0 +1,46 @@
+type User @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  bornedDate: AWSDate!
+  groupId: String! @index(name: "byGroupId", queryField: "listUsersByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listUsersByCreatedAt")
+}
+
+type Group @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listGroupsByCreatedAt")
+}
+
+type Book @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  categoryId: String!
+  groupId: String! @index(name: "byGroupId", queryField: "listBooksByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBooksByCreatedAt")
+}
+
+type BookCategory @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String! @index(name: "byGroupId", queryField: "listBookCategoriesByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBookCategoriesByCreatedAt")
+}
+
+type Comment @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String! @index(name: "byGroupId", queryField: "listCommentsByGroupId")
+  userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt")
+}

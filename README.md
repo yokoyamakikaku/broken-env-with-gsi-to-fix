@@ -1,34 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GSIに関するエラーの再現
 
-## Getting Started
+Amplify のGSIのエラーを再現するための手順をまとめる
 
-First, run the development server:
+# 環境
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+```
+% node -v
+v18.16.0
+% npm -v
+9.5.1
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 依存パッケージのインストール
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+% npm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Amplify プロジェクトの作成
 
-## Learn More
+```
+% amplify init
+% amplify add auth
+% amplify push -y
+% amplify add api
+% amplify push -y
+```
 
-To learn more about Next.js, take a look at the following resources:
+## リポジトリの接続
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GitHub などのリポジトリホスティングサービスにリポジトリをアップロードして連携する。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/setting-up-GitHub-access.html
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# エラーの発生
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. 初期スキーマの定義
+- 初期のデプロイ
+- データの登録
+- スキーマの更新
+- 更新後のデプロイ
+
+## 初期スキーマの定義
+
+`/schemas/schema.0.graphql` を `/amplify/backend/api/brokenenvwithgsi/schema.graphql` に配置する
+
+
+## 初期のデプロイ
+
+デプロイする
+
+```
+% amplify push -y
+```
+
+## データの登録
+
+
+```
+% node ./scripts/create-data/index.mjs
+```
+
+## スキーマの更新
+
+
+`/schemas/schema.1.graphql` を `/amplify/backend/api/brokenenvwithgsi/schema.graphql` に配置する
+
+## 更新後のデプロイ
+
+ここでエラーが発生する
+
+```
+% amplify push -y
+```

@@ -1,0 +1,46 @@
+type User @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  bornedDate: AWSDate!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Group @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime!
+}
+
+type Book @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  categoryId: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type BookCategory @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Comment @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  groupId: String!
+  userId: String!
+  contents: String!
+  createdAt: AWSDateTime!
+}

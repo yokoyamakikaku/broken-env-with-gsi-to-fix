@@ -14,6 +14,9 @@
     "categories": {
       "auth": {
         "brokenenvwithgsibc0e92fd": {}
+      },
+      "api": {
+        "brokenenvwithgsi": {}
       }
     }
   }
