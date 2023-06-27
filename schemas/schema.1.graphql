@@ -66,3 +66,33 @@ type Schedule @model @auth (rules: [
   groupId: String! @index(name: "byGroupId", queryField: "listSchedulesByGroupId")
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listSchedulesByCreatedAt")
 }
+
+type PostCategory @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String! @index(name: "byGroupId", queryField: "listPostCategoriesByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listPostCategoriesByCreatedAt")
+}
+
+type Post @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  contents: String!
+  categoryId: String! @index(name: "byCategoryId", queryField: "listPostsByGroupId")
+  groupId: String! @index(name: "byGroupId", queryField: "listPostsByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listPostsByCreatedAt")
+}
+
+type Todo @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  done: Boolean!
+  groupId: String! @index(name: "byGroupId", queryField: "listTodosByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listTodosByCreatedAt")
+}
