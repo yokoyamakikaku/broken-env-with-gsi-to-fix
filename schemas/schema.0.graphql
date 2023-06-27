@@ -1,3 +1,11 @@
+type Group @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listGroupsByCreatedAt")
+}
+
 type User @model @auth(rules: [
   { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
 ]) {
@@ -8,12 +16,13 @@ type User @model @auth(rules: [
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listUsersByCreatedAt")
 }
 
-type Group @model @auth(rules: [
+type BookCategory @model @auth (rules: [
   { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
-  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listGroupsByCreatedAt")
+  groupId: String! @index(name: "byGroupId", queryField: "listBookCategoriesByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBookCategoriesByCreatedAt")
 }
 
 type Book @model @auth (rules: [
@@ -24,15 +33,6 @@ type Book @model @auth (rules: [
   categoryId: String!
   groupId: String! @index(name: "byGroupId", queryField: "listBooksByGroupId")
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBooksByCreatedAt")
-}
-
-type BookCategory @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
-]) {
-  id: ID!
-  name: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listBookCategoriesByGroupId")
-  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listBookCategoriesByCreatedAt")
 }
 
 type Comment @model @auth (rules: [
@@ -82,7 +82,7 @@ type Post @model @auth (rules: [
   id: ID!
   title: String!
   contents: String!
-  categoryId: String! @index(name: "byCategoryId", queryField: "listPostsByGroupId")
+  categoryId: String! @index(name: "byCategoryId", queryField: "listPostsByCategoryId")
   groupId: String! @index(name: "byGroupId", queryField: "listPostsByGroupId")
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listPostsByCreatedAt")
 }
