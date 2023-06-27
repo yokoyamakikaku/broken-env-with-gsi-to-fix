@@ -47,7 +47,7 @@ type Comment @model @auth (rules: [
     @index(name: "byGroupIdWithCreatedAt", queryField: "listCommentsByGroupIdWithCreatedAt", sortKeyFields: ["createdAt"])
   userId: String!
     @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["id"])
-    @index(name: "byUserIdWithCreatedAt", queryField: "listCommentsByUserId", sortKeyFields: ["createdAt"])
+    @index(name: "byUserIdWithCreatedAt", queryField: "listCommentsByUserIdWithCreatedAt", sortKeyFields: ["createdAt"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt", sortKeyFields: ["id"])
 }
 
@@ -104,7 +104,7 @@ type Todo @model @auth (rules: [
   done: Boolean!
   groupId: String!
     @index(name: "byGroupId", queryField: "listTodosByGroupId", sortKeyFields: ["id"])
-    @index(name: "byGroupIdWithDone", queryField: "listTodosByGroupIdWithDone", sortKeyFields: ["done"])
+    @index(name: "byGroupIdWithTitle", queryField: "listTodosByGroupIdWithTitle", sortKeyFields: ["title"])
   createdAt: AWSDateTime!
     @index(name: "byCreatedAt", queryField: "listTodosByCreatedAt", sortKeyFields: ["id"])
 }
