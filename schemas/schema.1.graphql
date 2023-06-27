@@ -44,7 +44,7 @@ type Comment @model @auth (rules: [
   contents: String!
   groupId: String!
     @index(name: "byGroupId", queryField: "listCommentsByGroupId", sortKeyFields: ["id"])
-    @index(name: "byGroupIdWithCreatedAt", queryField: "listCommentsByGroupId", sortKeyFields: ["createdAt"])
+    @index(name: "byGroupIdWithCreatedAt", queryField: "listCommentsByGroupIdWithCreatedAt", sortKeyFields: ["createdAt"])
   userId: String!
     @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["id"])
     @index(name: "byUserIdWithCreatedAt", queryField: "listCommentsByUserId", sortKeyFields: ["createdAt"])
