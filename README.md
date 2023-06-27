@@ -65,9 +65,10 @@ https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/setting-up-GitHub-acc
 
 ## 更新後のデプロイ
 
-CI/CDを使ってデプロイするようにする。
-そのため変更をプッシュする。
+変更を origin にプッシュする
 
-```
-% git push -u origin main
-```
+## エラーの発生
+
+タイムアウトのエラーが発生する
+
+## 再デプロイ
