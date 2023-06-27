@@ -1,3 +1,5 @@
+"""ソートキーフィールドの追加"""
+
 type Group @model @auth(rules: [
   { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
 ]) {
@@ -40,8 +42,12 @@ type Comment @model @auth (rules: [
 ]) {
   id: ID!
   contents: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listCommentsByGroupId", sortKeyFields: ["id"])
-  userId: String! @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["id"])
+  groupId: String!
+    @index(name: "byGroupId", queryField: "listCommentsByGroupId", sortKeyFields: ["id"])
+    @index(name: "byGroupIdWithStartedAt", queryField: "listCommentsByGroupId", sortKeyFields: ["startedAt"])
+  userId: String!
+    @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["id"])
+    @index(name: "byUserIdWithStartedAt", queryField: "listCommentsByUserId", sortKeyFields: ["startedAt"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt", sortKeyFields: ["id"])
 }
 
@@ -50,7 +56,10 @@ type Message @model @auth (rules: [
 ]) {
   id: ID!
   contents: String!
-  groupId: String! @index(name: "byGroupId", queryField: "listMessagesByGroupId", sortKeyFields: ["id"])
+  groupId: String!
+    @index(name: "byGroupId", queryField: "listMessagesByGroupId", sortKeyFields: ["id"])
+    @index(name: "byGroupIdWithFrom", queryField: "listMessagesByGroupIdWithFrom", sortKeyFields: ["from"])
+    @index(name: "byGroupIdWithTo", queryField: "listMessagesByGroupIdWithTo", sortKeyFields: ["to"])
   from: String! @index(name: "byFrom", queryField: "listMessagesByFrom", sortKeyFields: ["id"])
   to: String! @index(name: "byTo", queryField: "listMessagesByTo", sortKeyFields: ["id"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listMessagesByCreatedAt", sortKeyFields: ["id"])
@@ -93,6 +102,9 @@ type Todo @model @auth (rules: [
   id: ID!
   title: String!
   done: Boolean!
-  groupId: String! @index(name: "byGroupId", queryField: "listTodosByGroupId", sortKeyFields: ["id"])
-  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listTodosByCreatedAt", sortKeyFields: ["id"])
+  groupId: String!
+    @index(name: "byGroupId", queryField: "listTodosByGroupId", sortKeyFields: ["id"])
+    @index(name: "byGroupIdWithDone", queryField: "listTodosByGroupIdWithDone", sortKeyFields: ["done"])
+  createdAt: AWSDateTime!
+    @index(name: "byCreatedAt", queryField: "listTodosByCreatedAt", sortKeyFields: ["id"])
 }
