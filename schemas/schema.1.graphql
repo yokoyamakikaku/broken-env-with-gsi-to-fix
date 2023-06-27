@@ -44,10 +44,10 @@ type Comment @model @auth (rules: [
   contents: String!
   groupId: String!
     @index(name: "byGroupId", queryField: "listCommentsByGroupId", sortKeyFields: ["id"])
-    @index(name: "byGroupIdWithStartedAt", queryField: "listCommentsByGroupId", sortKeyFields: ["startedAt"])
+    @index(name: "byGroupIdWithCreatedAt", queryField: "listCommentsByGroupId", sortKeyFields: ["createdAt"])
   userId: String!
     @index(name: "byUserId", queryField: "listCommentsByUserId", sortKeyFields: ["id"])
-    @index(name: "byUserIdWithStartedAt", queryField: "listCommentsByUserId", sortKeyFields: ["startedAt"])
+    @index(name: "byUserIdWithCreatedAt", queryField: "listCommentsByUserId", sortKeyFields: ["createdAt"])
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listCommentsByCreatedAt", sortKeyFields: ["id"])
 }
 
