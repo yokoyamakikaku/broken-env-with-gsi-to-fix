@@ -1,0 +1,100 @@
+"""インデックスなし"""
+
+type Group @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime!
+}
+
+type User @model @auth(rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  bornedDate: AWSDate!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type BookCategory @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Book @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  categoryId: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Comment @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String!
+  userId: String!
+  createdAt: AWSDateTime!
+}
+
+type Message @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String!
+  from: String!
+  to: String!
+  createdAt: AWSDateTime!
+}
+
+type Schedule @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  comment: String!
+  startedAt: AWSDateTime!
+  finishedAt: AWSDateTime!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type PostCategory @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Post @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  contents: String!
+  categoryId: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
+
+type Todo @model @auth (rules: [
+  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  done: Boolean!
+  groupId: String!
+  createdAt: AWSDateTime!
+}
