@@ -82,7 +82,7 @@ type Post @model @auth (rules: [
   id: ID!
   title: String!
   contents: String!
-  categoryId: String! @index(name: "byCategoryId", queryField: "listPostsByGroupId")
+  categoryId: String! @index(name: "byCategoryId", queryField: "listPostsByCategoryId")
   groupId: String! @index(name: "byGroupId", queryField: "listPostsByGroupId")
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listPostsByCreatedAt")
 }

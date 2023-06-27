@@ -28,7 +28,7 @@ async function main () {
     profileChoices.push({ name: profile, value: profile })
   }
 
-  /** @type {{ profile: string }} */
+  /** @type {{ profile: number }} */
   const { profile } = await inquirer.prompt({
     type: "list",
     message: "AWS Profile を選択してください",
@@ -36,7 +36,7 @@ async function main () {
     choices: profileChoices
   })
 
-  /** @type {{ region: string }} */
+  /** @type {{ region: number }} */
   const { region } = await inquirer.prompt({
     type: "input",
     message: "リージョンを入力してください",
@@ -106,14 +106,14 @@ async function main () {
   }
 
   if (User === null) {
-    /** @type {{ region: string }} */
+    /** @type {{ region: number }} */
     const { email } = await inquirer.prompt({
       type: "input",
       message: "メールアドレスを入力してください",
       name: "email"
     })
 
-    /** @type {{ region: string }} */
+    /** @type {{ region: number }} */
     const { UserName } = await inquirer.prompt({
       type: "input",
       message: "ユーザの名前を入力してください",
@@ -184,6 +184,31 @@ async function main () {
   const CommentTableName = CommentDataSource.dynamodbConfig.tableName
   if (!CommentTableName) throw Error("Comment TableName が存在しません")
 
+  const { dataSource: MessageDataSource } = await appSyncClient.send(new GetDataSourceCommand({ apiId, name: 'MessageTable' }))
+  if (!MessageDataSource) throw Error("Message Datasouce が存在しません")
+  const MessageTableName = MessageDataSource.dynamodbConfig.tableName
+  if (!MessageTableName) throw Error("Message TableName が存在しません")
+
+  const { dataSource: ScheduleDataSource } = await appSyncClient.send(new GetDataSourceCommand({ apiId, name: 'ScheduleTable' }))
+  if (!ScheduleDataSource) throw Error("Schedule Datasouce が存在しません")
+  const ScheduleTableName = ScheduleDataSource.dynamodbConfig.tableName
+  if (!ScheduleTableName) throw Error("Schedule TableName が存在しません")
+
+  const { dataSource: PostCategoryDataSource } = await appSyncClient.send(new GetDataSourceCommand({ apiId, name: 'PostCategoryTable' }))
+  if (!PostCategoryDataSource) throw Error("PostCategory Datasouce が存在しません")
+  const PostCategoryTableName = PostCategoryDataSource.dynamodbConfig.tableName
+  if (!PostCategoryTableName) throw Error("PostCategory TableName が存在しません")
+
+  const { dataSource: PostDataSource } = await appSyncClient.send(new GetDataSourceCommand({ apiId, name: 'PostTable' }))
+  if (!PostDataSource) throw Error("Post Datasouce が存在しません")
+  const PostTableName = PostDataSource.dynamodbConfig.tableName
+  if (!PostTableName) throw Error("Post TableName が存在しません")
+
+  const { dataSource: TodoDataSource } = await appSyncClient.send(new GetDataSourceCommand({ apiId, name: 'TodoTable' }))
+  if (!TodoDataSource) throw Error("Todo Datasouce が存在しません")
+  const TodoTableName = TodoDataSource.dynamodbConfig.tableName
+  if (!TodoTableName) throw Error("Todo TableName が存在しません")
+
   /** @type {{ groupCount: number }} */
   const { groupCount } = await inquirer.prompt({
     type: "number",
@@ -192,7 +217,7 @@ async function main () {
     default: 20,
   })
 
-  /** @type {{ userCount: string }} */
+  /** @type {{ userCount: number }} */
   const { userCount } = await inquirer.prompt({
     type: "number",
     message: "作成するユーザの数を入力してください",
@@ -200,7 +225,7 @@ async function main () {
     default: 200,
   })
 
-  /** @type {{ bookCategoryCount: string }} */
+  /** @type {{ bookCategoryCount: number }} */
   const { bookCategoryCount } = await inquirer.prompt({
     type: "number",
     message: "作成する本のカテゴリの数を入力してください",
@@ -208,7 +233,7 @@ async function main () {
     default: 400,
   })
 
-  /** @type {{ bookCount: string }} */
+  /** @type {{ bookCount: number }} */
   const { bookCount } = await inquirer.prompt({
     type: "number",
     message: "作成する本の数を入力してください",
@@ -216,12 +241,52 @@ async function main () {
     default: 2000,
   })
 
-  /** @type {{ bookCount: string }} */
+  /** @type {{ commentCount: number }} */
   const { commentCount } = await inquirer.prompt({
     type: "number",
     message: "コメントの数を入力してください",
     name: "commentCount",
     default: 10000,
+  })
+
+  /** @type {{ messageCount: number }} */
+  const { messageCount } = await inquirer.prompt({
+    type: "number",
+    message: "メッセージの数を入力してください",
+    name: "messageCount",
+    default: 1000,
+  })
+
+  /** @type {{ scheduleCount: number }} */
+  const { scheduleCount } = await inquirer.prompt({
+    type: "number",
+    message: "予定の数を入力してください",
+    name: "scheduleCount",
+    default: 1000,
+  })
+
+  /** @type {{ messageCount: number }} */
+  const { postCategoryCount } = await inquirer.prompt({
+    type: "number",
+    message: "記事分類の数を入力してください",
+    name: "postCategory",
+    default: 20,
+  })
+
+  /** @type {{ postCount: number }} */
+  const { postCount } = await inquirer.prompt({
+    type: "number",
+    message: "記事の数を入力してください",
+    name: "postCount",
+    default: 1000,
+  })
+
+  /** @type {{ todoCount: number }} */
+  const { todoCount } = await inquirer.prompt({
+    type: "number",
+    message: "作業の数を入力してください",
+    name: "todoCount",
+    default: 1000,
   })
 
   /** @type {string[]} */
@@ -235,6 +300,9 @@ async function main () {
 
   /** @type {string[]} */
   const bookIds = []
+
+  /** @type {string[]} */
+  const postCategoryIds = []
 
   const owner = User.Username
   if (!owner) throw Error("User.Username がありません")
@@ -322,6 +390,92 @@ async function main () {
           userId: chance.pickone(userIds),
           categoryId: chance.pickone(bookCategoryIds),
           contents: chance.paragraph({ sentences: 10 })
+        })
+      })
+    )
+  }
+
+  for (let i = 0; i < messageCount; i++) {
+    const id = uuid()
+    const [from, to] = chance.pickset(userIds, 2)
+    createPromises.push(
+      dynamoDb.putItem({
+        TableName: MessageTableName,
+        Item: marshall({
+          __typename: 'Message',
+          id, createdAt, updatedAt, owner,
+          groupId: chance.pickone(groupIds),
+          from: from,
+          to: to,
+          contents: chance.paragraph({ sentences: 10 })
+        })
+      })
+    )
+  }
+
+  for (let i = 0; i < scheduleCount; i++) {
+    const id = uuid()
+    const startedAt = chance.date()
+    const finishedAt = new Date(base.getTime() + chance.integer({ min:0, max: 24 * 60 * 60 * 1000 }))
+    createPromises.push(
+      dynamoDb.putItem({
+        TableName: ScheduleTableName,
+        Item: marshall({
+          __typename: 'Schedule',
+          id, createdAt, updatedAt, owner,
+          startedAt: startedAt.toISOString(),
+          finishedAt: finishedAt.toISOString(),
+          groupId: chance.pickone(groupIds),
+          comment: chance.paragraph({ sentences: 1 })
+        })
+      })
+    )
+  }
+
+  for (let i = 0; i < postCategoryCount; i++) {
+    const id = uuid()
+    createPromises.push(
+      dynamoDb.putItem({
+        TableName: ScheduleTableName,
+        Item: marshall({
+          __typename: 'Schedule',
+          id, createdAt, updatedAt, owner,
+          name: chance.name(),
+          groupId: chance.pickone(groupIds),
+        })
+      })
+    )
+    postCategoryIds.push(id)
+  }
+
+  for (let i = 0; i < postCount; i++) {
+    const id = uuid()
+    createPromises.push(
+      dynamoDb.putItem({
+        TableName: PostTableName,
+        Item: marshall({
+          __typename: 'Post',
+          id, createdAt, updatedAt, owner,
+          title: chance.sentence(),
+          contents: chance.paragraph({ sentences: 30 }),
+          categoryId: chance.pickone(postCategoryIds),
+          groupId: chance.pickone(groupIds),
+        })
+      })
+    )
+  }
+
+  for (let i = 0; i < todoCount; i++) {
+    const id = uuid()
+    createPromises.push(
+      dynamoDb.putItem({
+        TableName: TodoTableName,
+        Item: marshall({
+          __typename: 'Todo',
+          id, createdAt, updatedAt, owner,
+          title: chance.sentence(),
+          done: chance.bool(),
+          groupId: chance.pickone(groupIds),
         })
       })
     )
