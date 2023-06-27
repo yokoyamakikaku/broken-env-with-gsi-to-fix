@@ -63,6 +63,6 @@ type Schedule @model @auth (rules: [
   comment: String!
   startedAt: AWSDateTime!
   finishedAt: AWSDateTime!
-  groupId: String! @index(name: "byGroupId", queryField: "listMessagesByGroupId")
-  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listMessagesByCreatedAt")
+  groupId: String! @index(name: "byGroupId", queryField: "listSchedulesByGroupId")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "listSchedulesByCreatedAt")
 }
