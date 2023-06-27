@@ -1,0 +1,115 @@
+{
+    "Table": {
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "createdAt",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "groupId",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "id",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "userId",
+                "AttributeType": "S"
+            }
+        ],
+        "TableName": "Comment-wxheld47szbhdhfw24guhqko2a-main",
+        "KeySchema": [
+            {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+            }
+        ],
+        "TableStatus": "ACTIVE",
+        "CreationDateTime": "2023-06-26T20:47:20.429000+09:00",
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0,
+            "ReadCapacityUnits": 0,
+            "WriteCapacityUnits": 0
+        },
+        "TableSizeBytes": 0,
+        "ItemCount": 0,
+        "TableArn": "arn:aws:dynamodb:ap-northeast-1:693825121436:table/Comment-wxheld47szbhdhfw24guhqko2a-main",
+        "TableId": "cca1fdd0-6f49-461e-819d-dfcff412d3e1",
+        "BillingModeSummary": {
+            "BillingMode": "PAY_PER_REQUEST",
+            "LastUpdateToPayPerRequestDateTime": "2023-06-26T20:47:20.429000+09:00"
+        },
+        "GlobalSecondaryIndexes": [
+            {
+                "IndexName": "byGroupId",
+                "KeySchema": [
+                    {
+                        "AttributeName": "groupId",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "IndexStatus": "ACTIVE",
+                "ProvisionedThroughput": {
+                    "NumberOfDecreasesToday": 0,
+                    "ReadCapacityUnits": 0,
+                    "WriteCapacityUnits": 0
+                },
+                "IndexSizeBytes": 0,
+                "ItemCount": 0,
+                "IndexArn": "arn:aws:dynamodb:ap-northeast-1:693825121436:table/Comment-wxheld47szbhdhfw24guhqko2a-main/index/byGroupId"
+            },
+            {
+                "IndexName": "byUserId",
+                "KeySchema": [
+                    {
+                        "AttributeName": "userId",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "IndexStatus": "ACTIVE",
+                "ProvisionedThroughput": {
+                    "NumberOfDecreasesToday": 0,
+                    "ReadCapacityUnits": 0,
+                    "WriteCapacityUnits": 0
+                },
+                "IndexSizeBytes": 0,
+                "ItemCount": 0,
+                "IndexArn": "arn:aws:dynamodb:ap-northeast-1:693825121436:table/Comment-wxheld47szbhdhfw24guhqko2a-main/index/byUserId"
+            },
+            {
+                "IndexName": "byCreatedAt",
+                "KeySchema": [
+                    {
+                        "AttributeName": "createdAt",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "IndexStatus": "ACTIVE",
+                "ProvisionedThroughput": {
+                    "NumberOfDecreasesToday": 0,
+                    "ReadCapacityUnits": 0,
+                    "WriteCapacityUnits": 0
+                },
+                "IndexSizeBytes": 0,
+                "ItemCount": 0,
+                "IndexArn": "arn:aws:dynamodb:ap-northeast-1:693825121436:table/Comment-wxheld47szbhdhfw24guhqko2a-main/index/byCreatedAt"
+            }
+        ],
+        "StreamSpecification": {
+            "StreamEnabled": true,
+            "StreamViewType": "NEW_AND_OLD_IMAGES"
+        },
+        "LatestStreamLabel": "2023-06-26T11:47:20.429",
+        "LatestStreamArn": "arn:aws:dynamodb:ap-northeast-1:693825121436:table/Comment-wxheld47szbhdhfw24guhqko2a-main/stream/2023-06-26T11:47:20.429"
+    }
+}
