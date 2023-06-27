@@ -1,17 +1,34 @@
 import fs from 'fs'
 import path from 'path'
 import inquirer from 'inquirer'
-import { add, format } from 'date-fns'
+import { format } from 'date-fns'
 import { v4 as uuid } from 'uuid'
 import Chance from 'chance'
+import ProgressBar from 'progress'
 
 import { fromIni } from  '@aws-sdk/credential-providers'
 import { AppSyncClient, GetDataSourceCommand, ListGraphqlApisCommand } from '@aws-sdk/client-appsync'
 import { AdminCreateUserCommand, CognitoIdentityProviderClient, ListUserPoolsCommand, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { marshall } from '@aws-sdk/util-dynamodb'
+import { clearInterval } from 'timers'
 
 const HOME = process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
+const PROGRESS_INTERVAL = 500
+
+/**
+ * @param {(() => Promise<any>)[]} processes
+ * @param {import("progress")} bar
+ */
+async function waitForProcessesWithProgressBar (processes, bar) {
+  const timer = setInterval(() => {
+    if (bar.complete) clearInterval(timer)
+  }, PROGRESS_INTERVAL)
+  await Promise.all(processes.map(async process => {
+    await process()
+    bar.tick()
+  }))
+}
 
 async function main () {
 
@@ -223,6 +240,7 @@ async function main () {
     message: "作成するユーザの数を入力してください",
     name: "userCount",
     default: 200,
+    min: 2
   })
 
   /** @type {{ bookCategoryCount: number }} */
@@ -244,7 +262,7 @@ async function main () {
   /** @type {{ commentCount: number }} */
   const { commentCount } = await inquirer.prompt({
     type: "number",
-    message: "コメントの数を入力してください",
+    message: "作成する本のコメントの数を入力してください",
     name: "commentCount",
     default: 10000,
   })
@@ -252,7 +270,7 @@ async function main () {
   /** @type {{ messageCount: number }} */
   const { messageCount } = await inquirer.prompt({
     type: "number",
-    message: "メッセージの数を入力してください",
+    message: "作成するメッセージの数を入力してください",
     name: "messageCount",
     default: 1000,
   })
@@ -260,7 +278,7 @@ async function main () {
   /** @type {{ scheduleCount: number }} */
   const { scheduleCount } = await inquirer.prompt({
     type: "number",
-    message: "予定の数を入力してください",
+    message: "作成する予定の数を入力してください",
     name: "scheduleCount",
     default: 1000,
   })
@@ -268,15 +286,15 @@ async function main () {
   /** @type {{ messageCount: number }} */
   const { postCategoryCount } = await inquirer.prompt({
     type: "number",
-    message: "記事分類の数を入力してください",
-    name: "postCategory",
+    message: "作成する記事分類の数を入力してください",
+    name: "postCategoryCount",
     default: 20,
   })
 
   /** @type {{ postCount: number }} */
   const { postCount } = await inquirer.prompt({
     type: "number",
-    message: "記事の数を入力してください",
+    message: "作成する記事の数を入力してください",
     name: "postCount",
     default: 1000,
   })
@@ -284,7 +302,7 @@ async function main () {
   /** @type {{ todoCount: number }} */
   const { todoCount } = await inquirer.prompt({
     type: "number",
-    message: "作業の数を入力してください",
+    message: "作成する作業の数を入力してください",
     name: "todoCount",
     default: 1000,
   })
@@ -309,12 +327,11 @@ async function main () {
   const createdAt = new Date().toISOString()
   const updatedAt = createdAt
 
-  /** @type {Promise<import('@aws-sdk/client-dynamodb').PutItemCommandOutput>[]} */
-  const createPromises = []
-
+  // NOTE: グループ
+  const groupProcesses = []
   for (let i = 0; i < groupCount; i++) {
     const id = uuid()
-    createPromises.push(
+    groupProcesses.push(() =>
       dynamoDb.putItem({
         TableName: GroupTableName,
         Item: marshall({
@@ -326,10 +343,13 @@ async function main () {
     )
     groupIds.push(id)
   }
+  await waitForProcessesWithProgressBar(groupProcesses, new ProgressBar("グループの作成 :bar", { total: groupProcesses.length }))
 
+  // NOTE: ユーザ
+  const userProcesses = []
   for (let i = 0; i < userCount; i++) {
     const id = uuid()
-    createPromises.push(
+    userProcesses.push(() =>
       dynamoDb.putItem({
         TableName: UserTableName,
         Item: marshall({
@@ -343,10 +363,13 @@ async function main () {
     )
     userIds.push(id)
   }
+  await waitForProcessesWithProgressBar(userProcesses, new ProgressBar("ユーザの作成 :bar", { total: userProcesses.length }))
 
+  // NOTE: 本の分類
+  const bookCategoryProcesses = []
   for (let i = 0; i < bookCategoryCount; i++) {
     const id = uuid()
-    createPromises.push(
+    bookCategoryProcesses.push(() =>
       dynamoDb.putItem({
         TableName: BookCategoryTableName,
         Item: marshall({
@@ -359,10 +382,13 @@ async function main () {
     )
     bookCategoryIds.push(id)
   }
+  await waitForProcessesWithProgressBar(bookCategoryProcesses, new ProgressBar("本の分類の作成 :bar", { total: bookCategoryProcesses.length }))
 
+  // NOTE: 本
+  const bookProcesses = []
   for (let i = 0; i < bookCount; i++) {
     const id = uuid()
-    createPromises.push(
+    bookProcesses.push(() =>
       dynamoDb.putItem({
         TableName: BookTableName,
         Item: marshall({
@@ -376,10 +402,13 @@ async function main () {
     )
     bookIds.push(id)
   }
+  await waitForProcessesWithProgressBar(bookProcesses, new ProgressBar("本の作成 :bar", { total: bookProcesses.length }))
 
+  // NOTE: コメント
+  const commentProcesses = []
   for (let i = 0; i < commentCount; i++) {
     const id = uuid()
-    createPromises.push(
+    commentProcesses.push(() =>
       dynamoDb.putItem({
         TableName: CommentTableName,
         Item: marshall({
@@ -394,11 +423,14 @@ async function main () {
       })
     )
   }
+  await waitForProcessesWithProgressBar(commentProcesses, new ProgressBar("コメントの作成 :bar", { total: commentProcesses.length }))
 
+  // NOTE: メッセージ
+  const messageProcesses = []
   for (let i = 0; i < messageCount; i++) {
     const id = uuid()
     const [from, to] = chance.pickset(userIds, 2)
-    createPromises.push(
+    messageProcesses.push(() =>
       dynamoDb.putItem({
         TableName: MessageTableName,
         Item: marshall({
@@ -412,12 +444,15 @@ async function main () {
       })
     )
   }
+  await waitForProcessesWithProgressBar(messageProcesses, new ProgressBar("メッセージの作成 :bar", { total: messageProcesses.length }))
 
+  // NOTE: 予定
+  const scheduleProcesses = []
   for (let i = 0; i < scheduleCount; i++) {
     const id = uuid()
     const startedAt = chance.date()
-    const finishedAt = new Date(base.getTime() + chance.integer({ min:0, max: 24 * 60 * 60 * 1000 }))
-    createPromises.push(
+    const finishedAt = new Date(startedAt.getTime() + chance.integer({ min:0, max: 24 * 60 * 60 * 1000 }))
+    scheduleProcesses.push(() =>
       dynamoDb.putItem({
         TableName: ScheduleTableName,
         Item: marshall({
@@ -431,14 +466,17 @@ async function main () {
       })
     )
   }
+  await waitForProcessesWithProgressBar(scheduleProcesses, new ProgressBar("予定の作成 :bar", { total: scheduleProcesses.length }))
 
+  // NOTE: 記事の分類
+  const postCategoryProcesses = []
   for (let i = 0; i < postCategoryCount; i++) {
     const id = uuid()
-    createPromises.push(
+    postCategoryProcesses.push(() =>
       dynamoDb.putItem({
-        TableName: ScheduleTableName,
+        TableName: PostCategoryTableName,
         Item: marshall({
-          __typename: 'Schedule',
+          __typename: 'PostCategory',
           id, createdAt, updatedAt, owner,
           name: chance.name(),
           groupId: chance.pickone(groupIds),
@@ -447,10 +485,14 @@ async function main () {
     )
     postCategoryIds.push(id)
   }
+  await waitForProcessesWithProgressBar(postCategoryProcesses, new ProgressBar("記事の分類の作成 :bar", { total: postCategoryProcesses.length }))
 
+
+  // NOTE: 記事
+  const postProcesses = []
   for (let i = 0; i < postCount; i++) {
     const id = uuid()
-    createPromises.push(
+    postProcesses.push(() =>
       dynamoDb.putItem({
         TableName: PostTableName,
         Item: marshall({
@@ -464,10 +506,13 @@ async function main () {
       })
     )
   }
+  await waitForProcessesWithProgressBar(postProcesses, new ProgressBar("記事の作成 :bar", { total: postProcesses.length }))
 
+  // NOTE: 作業
+  const todoProcesses = []
   for (let i = 0; i < todoCount; i++) {
     const id = uuid()
-    createPromises.push(
+    todoProcesses.push(() =>
       dynamoDb.putItem({
         TableName: TodoTableName,
         Item: marshall({
@@ -480,10 +525,9 @@ async function main () {
       })
     )
   }
+  await waitForProcessesWithProgressBar(todoProcesses, new ProgressBar("作業の作成 :bar", { total: todoProcesses.length }))
 
-  console.log("全ての作成を開始しました。")
-  await Promise.all(createPromises)
-  console.log(`${createPromises.length}件のデータを作成を完了しました。`)
+  console.log("完了しました")
 }
 
 main()
