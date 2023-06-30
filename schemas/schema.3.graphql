@@ -1,54 +1,59 @@
 """インデックスなし"""
 
 type Group @model @auth(rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type User @model @auth(rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
   bornedDate: AWSDate!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type BookCategory @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Book @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
   categoryId: String!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Comment @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   contents: String!
   groupId: String!
   userId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Message @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   contents: String!
@@ -56,10 +61,11 @@ type Message @model @auth (rules: [
   from: String!
   to: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Schedule @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   comment: String!
@@ -67,19 +73,21 @@ type Schedule @model @auth (rules: [
   finishedAt: AWSDateTime!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type PostCategory @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   name: String!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Post @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   title: String!
@@ -87,14 +95,16 @@ type Post @model @auth (rules: [
   categoryId: String!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
 
 type Todo @model @auth (rules: [
-  { allow: owner, ownerField: "owner", operations: [create, update, delete, read] }
+  { allow: owner, operations: [create, update, delete, read] }
 ]) {
   id: ID!
   title: String!
   done: Boolean!
   groupId: String!
   createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [read]}])
 }
