@@ -4,7 +4,7 @@
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser(
     $filter: ModelSubscriptionUserFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onCreateUser(filter: $filter, owner: $owner) {
       id
@@ -21,7 +21,7 @@ export const onCreateUser = /* GraphQL */ `
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser(
     $filter: ModelSubscriptionUserFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onUpdateUser(filter: $filter, owner: $owner) {
       id
@@ -38,7 +38,7 @@ export const onUpdateUser = /* GraphQL */ `
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser(
     $filter: ModelSubscriptionUserFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onDeleteUser(filter: $filter, owner: $owner) {
       id
@@ -55,7 +55,7 @@ export const onDeleteUser = /* GraphQL */ `
 export const onCreateGroup = /* GraphQL */ `
   subscription OnCreateGroup(
     $filter: ModelSubscriptionGroupFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onCreateGroup(filter: $filter, owner: $owner) {
       id
@@ -70,7 +70,7 @@ export const onCreateGroup = /* GraphQL */ `
 export const onUpdateGroup = /* GraphQL */ `
   subscription OnUpdateGroup(
     $filter: ModelSubscriptionGroupFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onUpdateGroup(filter: $filter, owner: $owner) {
       id
@@ -85,7 +85,7 @@ export const onUpdateGroup = /* GraphQL */ `
 export const onDeleteGroup = /* GraphQL */ `
   subscription OnDeleteGroup(
     $filter: ModelSubscriptionGroupFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onDeleteGroup(filter: $filter, owner: $owner) {
       id
@@ -100,7 +100,7 @@ export const onDeleteGroup = /* GraphQL */ `
 export const onCreateBook = /* GraphQL */ `
   subscription OnCreateBook(
     $filter: ModelSubscriptionBookFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onCreateBook(filter: $filter, owner: $owner) {
       id
@@ -117,7 +117,7 @@ export const onCreateBook = /* GraphQL */ `
 export const onUpdateBook = /* GraphQL */ `
   subscription OnUpdateBook(
     $filter: ModelSubscriptionBookFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onUpdateBook(filter: $filter, owner: $owner) {
       id
@@ -134,7 +134,7 @@ export const onUpdateBook = /* GraphQL */ `
 export const onDeleteBook = /* GraphQL */ `
   subscription OnDeleteBook(
     $filter: ModelSubscriptionBookFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onDeleteBook(filter: $filter, owner: $owner) {
       id
@@ -151,7 +151,7 @@ export const onDeleteBook = /* GraphQL */ `
 export const onCreateBookCategory = /* GraphQL */ `
   subscription OnCreateBookCategory(
     $filter: ModelSubscriptionBookCategoryFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onCreateBookCategory(filter: $filter, owner: $owner) {
       id
@@ -167,7 +167,7 @@ export const onCreateBookCategory = /* GraphQL */ `
 export const onUpdateBookCategory = /* GraphQL */ `
   subscription OnUpdateBookCategory(
     $filter: ModelSubscriptionBookCategoryFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onUpdateBookCategory(filter: $filter, owner: $owner) {
       id
@@ -183,7 +183,7 @@ export const onUpdateBookCategory = /* GraphQL */ `
 export const onDeleteBookCategory = /* GraphQL */ `
   subscription OnDeleteBookCategory(
     $filter: ModelSubscriptionBookCategoryFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onDeleteBookCategory(filter: $filter, owner: $owner) {
       id
@@ -199,7 +199,7 @@ export const onDeleteBookCategory = /* GraphQL */ `
 export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment(
     $filter: ModelSubscriptionCommentFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onCreateComment(filter: $filter, owner: $owner) {
       id
@@ -216,7 +216,7 @@ export const onCreateComment = /* GraphQL */ `
 export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment(
     $filter: ModelSubscriptionCommentFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onUpdateComment(filter: $filter, owner: $owner) {
       id
@@ -233,7 +233,7 @@ export const onUpdateComment = /* GraphQL */ `
 export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment(
     $filter: ModelSubscriptionCommentFilterInput
-    $owner: String @auth(rules: [{ allow: owner, operations: [read]}])
+    $owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
   ) {
     onDeleteComment(filter: $filter, owner: $owner) {
       id
