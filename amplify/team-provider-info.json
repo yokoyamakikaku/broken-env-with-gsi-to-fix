@@ -1,0 +1,20 @@
+{
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-brokenenvwithgsitofi-main-142305-authRole",
+      "UnauthRoleArn": "arn:aws:iam::693825121436:role/amplify-brokenenvwithgsitofi-main-142305-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::693825121436:role/amplify-brokenenvwithgsitofi-main-142305-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-brokenenvwithgsitofi-main-142305-deployment",
+      "UnauthRoleName": "amplify-brokenenvwithgsitofi-main-142305-unauthRole",
+      "StackName": "amplify-brokenenvwithgsitofi-main-142305",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:693825121436:stack/amplify-brokenenvwithgsitofi-main-142305/866b5220-1898-11ee-a886-0e7838d3ce31",
+      "AmplifyAppId": "db5zml6c1vfg2"
+    },
+    "categories": {
+      "auth": {
+        "brokenenvwithgsitofieb7c104b": {}
+      }
+    }
+  }
+}

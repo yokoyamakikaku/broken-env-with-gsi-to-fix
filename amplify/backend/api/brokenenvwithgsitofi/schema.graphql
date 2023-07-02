@@ -1,0 +1,110 @@
+"""インデックスなし"""
+
+type Group @model @auth(rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type User @model @auth(rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  bornedDate: AWSDate!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type BookCategory @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Book @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  categoryId: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Comment @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String!
+  userId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Message @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  contents: String!
+  groupId: String!
+  from: String!
+  to: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Schedule @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  comment: String!
+  startedAt: AWSDateTime!
+  finishedAt: AWSDateTime!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type PostCategory @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  name: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Post @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  contents: String!
+  categoryId: String!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
+
+type Todo @model @auth (rules: [
+  { allow: owner, operations: [create, update, delete, read] }
+]) {
+  id: ID!
+  title: String!
+  done: Boolean!
+  groupId: String!
+  createdAt: AWSDateTime!
+  owner: String @auth(rules: [{ allow: owner, operations: [create, read]}])
+}
